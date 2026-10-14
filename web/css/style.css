@@ -1,0 +1,55 @@
+:root{--bg:#FFF5EC;--kartu:#fff;--peach:#FFE3CF;--orange:#FF9A62;--deep:#E5702F;--ink:#5B3A29;
+--muted:#A07F6B;--garis:#F7DDC9;--banding:#FFC857;--geser:#FF7A59;--ok:#6DBE75}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+.topbar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+padding:12px 24px;background:rgba(255,245,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--garis)}
+.brand{font-weight:800;font-size:20px;margin-right:auto}.brand span{color:var(--deep)}
+.cari,.urut{display:flex;gap:8px;align-items:center}
+input{font:inherit;padding:9px 12px;border:1px solid var(--garis);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--orange)}
+.btn{font:inherit;font-weight:600;padding:9px 14px;border-radius:12px;border:1px solid var(--orange);
+background:#fff;color:var(--deep);cursor:pointer}
+.btn:hover{background:var(--peach)}
+.btn-utama{background:var(--orange);color:#fff}.btn-utama:hover{background:var(--deep)}
+.btn-hantu{border-color:var(--garis);color:var(--muted)}
+#utama{padding:24px;transition:padding .25s}
+.hero{background:linear-gradient(135deg,#FFD9BF,#FFB88A);border-radius:24px;padding:28px 32px;margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:28px}.hero p{margin:0 0 12px}
+.badge{display:inline-block;font-size:12px;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.7)}
+.status{min-height:22px;margin:0 0 12px;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.kartu{position:relative;background:var(--kartu);border-radius:20px;padding:14px;border:3px solid transparent;
+box-shadow:0 4px 14px rgba(229,112,47,.08);transition:transform .15s,opacity .2s,border-color .15s}
+.nomor{position:absolute;top:10px;left:12px;font-size:11px;font-weight:700;color:var(--muted)}
+.gambar{height:100px;border-radius:14px;background:var(--peach);display:grid;place-items:center;font-size:48px;margin-bottom:10px}
+.kategori{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.kartu h3{margin:2px 0 6px;font-size:15px}.harga{font-weight:800;color:var(--deep)}.stok{font-size:12px;color:var(--muted)}
+.is-compare{border-color:var(--banding);transform:translateY(-4px)}
+.is-swap{border-color:var(--geser);transform:translateY(-4px) rotate(-1deg)}
+.is-found,.is-match{border-color:var(--ok)}
+.is-miss{border-color:#d9c6b9;border-style:dashed}
+.is-dim{opacity:.35}
+.kosong{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);z-index:10;background:#fff;
+border-left:1px solid var(--garis);box-shadow:-8px 0 30px rgba(229,112,47,.15);display:flex;flex-direction:column;
+transform:translateX(105%);transition:transform .25s}
+.panel.buka{transform:none}
+.panel-kepala{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--peach)}
+.panel-kepala h2{margin:0;font-size:17px}
+.tutup{font:inherit;font-weight:700;border:0;background:#fff;color:var(--deep);padding:7px 12px;border-radius:10px;cursor:pointer}
+.ringkasan{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px}
+.stat{background:var(--bg);border-radius:12px;padding:8px 12px}
+.stat small{display:block;color:var(--muted);font-size:11px}.stat b{font-size:16px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px}
+.toolbar .btn{padding:7px 10px;font-size:13px}
+.langkah-daftar{flex:1;overflow:auto;padding:0 16px 16px}
+details{border:1px solid var(--garis);border-radius:12px;margin-bottom:8px;overflow:hidden}
+summary{cursor:pointer;padding:8px 12px;font-weight:700;background:var(--bg);font-size:13px}
+.langkah{display:block;width:100%;text-align:left;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;
+border:0;border-left:4px solid var(--garis);background:#fff;padding:6px 10px;cursor:pointer;color:var(--ink)}
+.langkah:hover{background:var(--bg)}.langkah.aktif{background:var(--peach)}
+.langkah .no{color:var(--muted);margin-right:6px}
+.k-geser{border-left-color:var(--geser)}.k-stop{border-left-color:var(--banding)}
+.k-cocok{border-left-color:var(--ok)}.k-tidak{border-left-color:#d9c6b9}
+@media(min-width:1000px){body.panel-buka #utama{padding-right:455px}}

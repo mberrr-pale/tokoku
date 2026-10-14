@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tokoku - Fashion & Aksesoris</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🍊 Toko<span>ku</span></div>
+    <form id="form-cari" class="cari">
+      <input id="kata" type="search" placeholder="Cari jaket, celana, topi..." autocomplete="off">
+      <button type="submit" class="btn btn-utama">Cari produk</button>
+    </form>
+    <div class="urut">
+      <button id="btn-urut" class="btn">Urutkan harga</button>
+      <button id="btn-reset" class="btn btn-hantu">Reset</button>
+    </div>
+  </header>
+
+  <main id="utama">
+    <section class="hero">
+      <h1>Fashion santai, warna manis.</h1>
+      <p>Pakaian dan aksesoris pilihan dengan nuansa pastel orange.</p>
+      <span id="badge" class="badge">Memuat mesin C++...</span>
+    </section>
+    <p id="status" class="status"></p>
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <aside id="panel" class="panel" aria-hidden="true">
+    <header class="panel-kepala">
+      <h2 id="panel-judul">Log</h2>
+      <button id="panel-tutup" class="tutup" aria-label="Tutup panel log">✕ Tutup</button>
+    </header>
+    <section id="ringkasan" class="ringkasan"></section>
+    <div class="toolbar">
+      <button id="btn-putar" class="btn btn-utama">⏸ Jeda</button>
+      <button id="btn-lompat" class="btn">⏭ Lompat ke hasil</button>
+      <button id="btn-unduh" class="btn">⬇ Unduh log (.txt)</button>
+    </div>
+    <section id="langkah" class="langkah-daftar"></section>
+  </aside>
+
+  <script src="js/engine.js"></script>
+  <script src="js/urutan.js"></script>
+  <script src="js/tampilan-katalog.js"></script>
+  <script src="js/panel-log.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
