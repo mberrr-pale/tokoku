@@ -11,7 +11,7 @@ const PanelLog = (() => {
     $('btn-lompat').onclick = lompat;
     $('btn-unduh').onclick = unduh;
     $('langkah').addEventListener('click', (e) => {
-      const tombol = e.target.closest('.langkah');
+      const tombol = e.target.closest('.log-line');
       if (!tombol) return;
       jeda();
       keLangkah(Number(tombol.dataset.i));
@@ -19,43 +19,56 @@ const PanelLog = (() => {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') tutup(); });
   }
 
-  const stat = (label, nilai) => `<div class="stat"><small>${label}</small><b>${nilai}</b></div>`;
+  const kotak = (label, nilai) => `<div><span>${label}</span><strong>${nilai}</strong></div>`;
+  const titik = (kelas, label) => `<span><i class="${kelas}"></i>${label}</span>`;
 
   function gambarRingkasan() {
     const r = hasil;
+    $('panel-kicker').textContent = jenis === 'sort' ? 'Proses pengurutan' : 'Proses pencarian';
     $('panel-judul').textContent = jenis === 'sort'
-      ? 'Log Sorting - Harga'
-      : 'Log Pencarian - "' + r.kata + '"';
-    $('ringkasan').innerHTML = stat('Metode', r.metode) + stat('Jumlah data', r.jumlahData + ' produk') +
-      stat('Perbandingan', r.perbandingan + 'x') +
-      (jenis === 'sort' ? stat('Pergeseran', r.pergeseran + 'x') : stat('Ditemukan', r.ditemukan + ' produk'));
+      ? 'Log Sorting — Harga'
+      : 'Log Pencarian — “' + r.kata + '”';
+    $('ringkasan').innerHTML = kotak('Metode', r.metode) + kotak('Jumlah data', r.jumlahData + ' produk') +
+      kotak('Perbandingan', r.perbandingan + 'x') +
+      (jenis === 'sort' ? kotak('Pergeseran', r.pergeseran + 'x') : kotak('Ditemukan', r.ditemukan + ' produk'));
+    $('legenda').innerHTML = jenis === 'sort'
+      ? titik('shift', 'Geser') + titik('stop', 'Stop')
+      : titik('match', 'Cocok') + titik('miss', 'Tidak cocok');
   }
+
+  // kelas warna garis kiri per jenis langkah
+  const KELAS = { GESER: 'shift', STOP: 'stop', COCOK: 'match', TIDAK: 'miss' };
 
   function gambarLangkah() {
     const grup = {};
     hasil.log.forEach((l, i) => { (grup[l.pass] = grup[l.pass] || []).push([l, i]); });
-    $('langkah').innerHTML = Object.keys(grup).map((pass) => {
+    $('langkah').innerHTML = Object.keys(grup).map((pass, urutanGrup) => {
       const baris = grup[pass].map(([l, i]) =>
-        `<button class="langkah k-${l.jenis.toLowerCase()}" data-i="${i}">` +
+        `<button class="log-line ${KELAS[l.jenis] || 'miss'}" data-i="${i}" type="button">` +
         `<span class="no">${String(i + 1).padStart(3, '0')}</span>${l.teks}</button>`).join('');
       const judul = jenis === 'sort'
         ? `Pass ${pass} (${grup[pass].length} langkah)`
         : `Pemeriksaan data (${grup[pass].length} langkah)`;
-      return `<details><summary>${judul}</summary>${baris}</details>`;
+      return `<details${urutanGrup === 0 ? ' open' : ''}><summary><span>${judul}</span><span aria-hidden="true">⌄</span></summary>` +
+             `<div class="step-list">${baris}</div></details>`;
     }).join('');
   }
 
   function keLangkah(i) {
     idx = i;
-    document.querySelectorAll('.langkah.aktif').forEach((el) => el.classList.remove('aktif'));
-    const el = document.querySelector(`.langkah[data-i="${i}"]`);
-    if (el) { el.classList.add('aktif'); el.parentElement.open = true; el.scrollIntoView({ block: 'nearest' }); }
+    document.querySelectorAll('.log-line.active').forEach((el) => el.classList.remove('active'));
+    const el = document.querySelector(`.log-line[data-i="${i}"]`);
+    if (el) {
+      el.classList.add('active');
+      el.closest('details').open = true;
+      el.scrollIntoView({ block: 'nearest' });
+    }
     cb.saatLangkah(hasil.log[i], i, hasil, jenis);
   }
 
   function putar() {
     if (idx >= hasil.log.length - 1) idx = -1;
-    $('btn-putar').textContent = '⏸ Jeda';
+    $('btn-putar').textContent = 'Ⅱ Jeda';
     timer = setInterval(() => {
       if (idx + 1 >= hasil.log.length) { jeda(); cb.saatSelesai(hasil, jenis); return; }
       keLangkah(idx + 1);

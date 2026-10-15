@@ -4,43 +4,77 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tokoku - Fashion & Aksesoris</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">🍊 Toko<span>ku</span></div>
-    <form id="form-cari" class="cari">
-      <input id="kata" type="search" placeholder="Cari jaket, celana, topi..." autocomplete="off">
-      <button type="submit" class="btn btn-utama">Cari produk</button>
-    </form>
-    <div class="urut">
-      <button id="btn-urut" class="btn">Urutkan harga</button>
-      <button id="btn-reset" class="btn btn-hantu">Reset</button>
-    </div>
-  </header>
+  <div class="page-content">
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">T</span>Tokoku</a>
 
-  <main id="utama">
-    <section class="hero">
-      <h1>Fashion santai, warna manis.</h1>
-      <p>Pakaian dan aksesoris pilihan dengan nuansa pastel orange.</p>
-      <span id="badge" class="badge">Memuat mesin C++...</span>
-    </section>
-    <p id="status" class="status"></p>
-    <div id="grid" class="grid"></div>
-  </main>
+      <form id="form-cari" class="search-box">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.2"/><path d="m15.2 15.2 4.5 4.5"/></svg>
+        <input id="kata" type="search" aria-label="Cari produk" placeholder="Cari jaket, celana, topi..." autocomplete="off">
+        <button type="submit">Cari produk</button>
+      </form>
 
-  <aside id="panel" class="panel" aria-hidden="true">
-    <header class="panel-kepala">
-      <h2 id="panel-judul">Log</h2>
-      <button id="panel-tutup" class="tutup" aria-label="Tutup panel log">✕ Tutup</button>
+      <div class="topbar-actions">
+        <button id="btn-urut" class="sort-button" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 4v16M4 17l3 3 3-3M17 20V4M14 7l3-3 3 3"/></svg>
+          Urutkan harga
+        </button>
+        <button id="btn-reset" class="reset-button" type="button">Reset</button>
+      </div>
     </header>
-    <section id="ringkasan" class="ringkasan"></section>
-    <div class="toolbar">
-      <button id="btn-putar" class="btn btn-utama">⏸ Jeda</button>
-      <button id="btn-lompat" class="btn">⏭ Lompat ke hasil</button>
-      <button id="btn-unduh" class="btn">⬇ Unduh log (.txt)</button>
+
+    <main>
+      <section class="compact-hero">
+        <div>
+          <p class="eyebrow">Koleksi pilihan Tokoku</p>
+          <h1>Fashion santai, warna manis.</h1>
+          <p>Pakaian dan aksesori pilihan untuk menemani hari dengan gaya yang ringan.</p>
+        </div>
+        <span class="engine-badge"><i></i><span id="badge">Memuat mesin C++...</span></span>
+      </section>
+
+      <section class="catalog" aria-label="Katalog produk">
+        <div class="catalog-status">
+          <div>
+            <span id="status-dot" class="status-dot"></span>
+            <p id="status"></p>
+          </div>
+          <span id="status-metode">Data awal</span>
+        </div>
+        <div id="grid" class="product-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Tokoku</span>
+      <span>Eksperimen Sorting &amp; Searching</span>
+    </footer>
+  </div>
+
+  <aside id="panel" class="log-panel" aria-label="Log algoritma" aria-hidden="true">
+    <div class="log-header">
+      <div>
+        <span id="panel-kicker" class="log-kicker"></span>
+        <h2 id="panel-judul">Log</h2>
+      </div>
+      <button id="panel-tutup" class="close-button" type="button" aria-label="Tutup panel log">
+        <span aria-hidden="true">×</span> Tutup
+      </button>
     </div>
-    <section id="langkah" class="langkah-daftar"></section>
+    <div class="log-content">
+      <div id="ringkasan" class="summary-grid"></div>
+      <div class="log-actions">
+        <button id="btn-putar" type="button">Ⅱ Jeda</button>
+        <button id="btn-lompat" type="button">» Lompat ke hasil</button>
+        <button id="btn-unduh" type="button">↓ Unduh log (.txt)</button>
+      </div>
+      <div id="legenda" class="log-legend"></div>
+      <div id="langkah" class="log-groups"></div>
+    </div>
   </aside>
 
   <script src="js/engine.js"></script>

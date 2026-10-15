@@ -1,7 +1,13 @@
 // app.js - menyambungkan tombol, mesin C++, katalog, dan panel log
 (async () => {
   const $ = (id) => document.getElementById(id);
-  const status = (teks) => { $('status').textContent = teks; };
+
+  // baris status di atas katalog: teks, warna titik (sorting / search), dan label metode
+  function status(teks, mode = '', metode = 'Data awal') {
+    $('status').textContent = teks;
+    $('status-dot').className = 'status-dot ' + mode;
+    $('status-metode').textContent = metode;
+  }
 
   try {
     await Mesin.mulai();
@@ -14,31 +20,40 @@
 
   const katalog = Mesin.ambilKatalog();
   const semuaId = katalog.map((p) => p.id);
+  const awal = () => status(`${katalog.length} produk tersedia — siap untuk dicari atau diurutkan.`);
   TampilanKatalog.mulai($('grid'), katalog);
   TampilanKatalog.gambar(semuaId);
+  awal();
 
   PanelLog.mulai({
     saatLangkah(l, i, hasil, jenis) {
+      const keadaan = {};
       if (jenis === 'sort') {
-        TampilanKatalog.gambar(hasil.urutanLangkah[i],
-          { aktif: [l.idA, l.idB], jenis: l.jenis === 'GESER' ? 'swap' : 'compare' });
+        keadaan[l.idA] = 'checking';                           // produk yang sedang disisipkan
+        keadaan[l.idB] = l.jenis === 'GESER' ? 'shift' : 'stop';
+        TampilanKatalog.gambar(hasil.urutanLangkah[i], keadaan);
       } else {
-        const cocok = hasil.log.slice(0, i + 1).filter((x) => x.jenis === 'COCOK').map((x) => x.idA);
-        TampilanKatalog.gambar(hasil.urutan,
-          { aktif: [l.idA], jenis: l.jenis === 'COCOK' ? 'found' : 'miss', cocok });
+        hasil.log.slice(0, i + 1).forEach((x) => { if (x.jenis === 'COCOK') keadaan[x.idA] = 'match'; });
+        if (l.jenis !== 'COCOK') keadaan[l.idA] = 'checking';
+        TampilanKatalog.gambar(hasil.urutan, keadaan);
       }
     },
     saatSelesai(hasil, jenis) {
-      if (jenis === 'sort') TampilanKatalog.gambar(hasil.urutan);
-      else TampilanKatalog.gambar(hasil.urutan, { cocok: hasil.cocok, redup: true });
+      if (jenis === 'sort') {
+        TampilanKatalog.gambar(hasil.urutan);
+      } else {
+        const keadaan = {};
+        hasil.cocok.forEach((id) => { keadaan[id] = 'match'; });
+        TampilanKatalog.gambar(hasil.urutan, keadaan, 'dimmed');
+      }
     },
     saatTutup(hasil, jenis) {
       if (jenis === 'sort') {
         TampilanKatalog.gambar(hasil.urutan);
-        status('Diurutkan berdasarkan harga (termurah → termahal).');
+        status('Diurutkan berdasarkan harga (termurah → termahal).', 'sorting', 'Insertion Sort');
       } else {
         TampilanKatalog.gambar(hasil.cocok);
-        status(`Menampilkan ${hasil.ditemukan} dari ${hasil.jumlahData} produk untuk "${hasil.kata}".`);
+        status(`Hasil pencarian “${hasil.kata}” — ${hasil.ditemukan} produk ditemukan.`, 'search', 'Linear Search');
       }
     },
   });
@@ -46,6 +61,7 @@
   $('btn-urut').onclick = () => {
     const hasil = Mesin.urutkanHarga();                    // dijalankan oleh C++
     hasil.urutanLangkah = hitungUrutan(semuaId, hasil.log);
+    status('Mengurutkan berdasarkan harga (termurah → termahal).', 'sorting', 'Insertion Sort');
     PanelLog.buka(hasil, 'sort');
   };
 
@@ -55,6 +71,7 @@
     if (!kata) { $('kata').focus(); return; }
     const hasil = Mesin.cariProduk(kata);                  // dijalankan oleh C++
     hasil.kata = kata;
+    status(`Mencari “${kata}” di ${hasil.jumlahData} produk...`, 'search', 'Linear Search');
     PanelLog.buka(hasil, 'search');
   };
 
@@ -63,6 +80,6 @@
     Mesin.resetKatalog();
     $('kata').value = '';
     TampilanKatalog.gambar(semuaId);
-    status('');
+    awal();
   };
 })();
