@@ -12,7 +12,7 @@ dijalankan di browser lewat WebAssembly (Emscripten).
 
 \- NIM: 25050974115
 
-\- Demo: https://github.com/mberrr-pale/tokoku.git
+\- Demo: https://mberrr-pale.github.io/tokoku/
 
 
 
