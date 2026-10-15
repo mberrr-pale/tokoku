@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "produk.h"
+#include "searching.h"
+#include "log.h"
 
-static void keKecil(const char* asal, char* tujuan) {
+static void keKecil(const char* asal, char* tujuan, int ukuranTujuan) {
     int i = 0;
-    for (; asal[i] != '\0'; i++) {
+    for (; asal[i] != '\0' && i < ukuranTujuan - 1; i++) {
         tujuan[i] = (char)tolower((unsigned char)asal[i]);
     }
     tujuan[i] = '\0';
@@ -13,15 +14,16 @@ static void keKecil(const char* asal, char* tujuan) {
 
 void linearSearchProduk(const dtProduk* arr, int n, const char* kataKunci,
                         int* perbandingan, int* ditemukan) {
-    char kunci[30];
-    char baris [200];
-    keKecil(kataKunci, kunci);
+    char kunci[PANJANG_KATA];
+    char baris[PANJANG_TEKS];
+    keKecil(kataKunci, kunci, sizeof(kunci));
 
     const dtProduk* p = arr;                 
     for (int i = 0; i < n; i++, p++) {
-        char teks[60], kecil[60];
+        char teks[PANJANG_NAMA + PANJANG_KATEGORI + 1];
+        char kecil[PANJANG_NAMA + PANJANG_KATEGORI + 1];
         snprintf(teks, sizeof(teks), "%s %s", p->nama, p->kategori);
-        keKecil(teks, kecil);
+        keKecil(teks, kecil, sizeof(kecil));
 
         (*perbandingan)++;
         bool cocok = strstr(kecil, kunci) != NULL;

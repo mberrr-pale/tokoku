@@ -1,14 +1,10 @@
 #include <stdio.h>
-#include "produk.h"
+#include "sorting.h"
+#include "log.h"
 
-void tukarProduk(dtProduk* a, dtProduk* b) {
-    dtProduk tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
 
 void insertionSortHarga(dtProduk* arr, int n, int* perbandingan, int* pergeseran) {
-    char baris[200];
+    char baris[PANJANG_TEKS];
     for (int i = 1; i < n; i++) {
         dtProduk temp = *(arr + i);
         int j = i - 1;

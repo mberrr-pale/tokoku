@@ -2,11 +2,14 @@
 #include <string.h>
 #include <string>
 #include "produk.h"
+#include "log.h"
+#include "sorting.h"
+#include "searching.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/emscripten.h>
 #else
-#define EMSCRIPTEN_KEEPALIVE   
+#define EMSCRIPTEN_KEEPALIVE
 #endif
 
 static dtProduk asli[JUMLAH_PRODUK];   
@@ -79,7 +82,7 @@ EMSCRIPTEN_KEEPALIVE const char* urutkanHarga() {
 }
 
 EMSCRIPTEN_KEEPALIVE const char* cariProduk(const char* kataKunci) {
-    char kata[30];                     
+    char kata[PANJANG_KATA];                     
     strncpy(kata, kataKunci, sizeof(kata) - 1);
     kata[sizeof(kata) - 1] = '\0';
 

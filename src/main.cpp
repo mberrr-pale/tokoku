@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "produk.h"
+#include "log.h"
+#include "sorting.h"
+#include "searching.h"
 
 int main() {
     int perbandingan = 0, pergeseran = 0;
@@ -16,8 +19,8 @@ int main() {
                p->id, p->nama, p->kategori, p->harga, p->stok);
     }
 
-    char kata[30];
-    printf("\nMasukan Kata Kunci: ");
+    char kata[PANJANG_KATA];
+    printf("\nMasukkan Kata Kunci: ");
     scanf("%29s", kata);
     
     int cek = 0, ketemu = 0;

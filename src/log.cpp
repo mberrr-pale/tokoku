@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "produk.h"
+#include "log.h"
 
 LogLangkah logData[MAX_LOG];
 int jumlahLog = 0;
